@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 安装与使用文档
+    url: https://github.com/Lang-Haoyu7381/armor_pioneer/blob/main/docs/%E5%AE%89%E8%A3%85.md
+    about: 安装步骤、配置升级与常见问题
+  - name: 已知限制
+    url: https://github.com/Lang-Haoyu7381/armor_pioneer/blob/main/docs/%E6%9C%AA%E8%A6%86%E7%9B%96.md
+    about: 提交 issue 前先看看这个功能是不是刻意没做

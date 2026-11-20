@@ -1,0 +1,76 @@
+name: Bug 报告
+description: 报告一个可复现的问题（崩溃、数值错误、行为异常）
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈！为了让问题能被定位，请尽量把下面几项填完整。
+        **一句话描述很难复现**——这个项目的绝大多数问题都是靠日志和实测数据定位的。
+
+  - type: textarea
+    id: what
+    attributes:
+      label: 问题是什么
+      description: 发生了什么？你期望发生什么？
+      placeholder: |
+        例如：VT-5 的 105mm APFSDS 打在 K2 炮塔正面不掉血，扫描仪显示 240mm，穿深 550mm。
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 进入存档 ...
+        2. 驾驶 ...
+        3. 按 ...
+    validations:
+      required: true
+
+  - type: input
+    id: mc
+    attributes:
+      label: Minecraft 版本与加载器
+      placeholder: 1.20.1 / Forge 47.4.2  或  1.21.1 / NeoForge 21.1.230
+    validations:
+      required: true
+
+  - type: input
+    id: versions
+    attributes:
+      label: 模组版本
+      description: 附属模组、基础模组、载具包的完整文件名
+      placeholder: ywzj_vehicle_armor-2.0.22.jar / ywzj_vehicle-1.20.1-0.6.3.jar / armor_pioneer-1.1.6-0.6.3
+    validations:
+      required: true
+
+  - type: textarea
+    id: log
+    attributes:
+      label: 日志
+      description: 请附上 `logs/latest.log` 的相关段落（有崩溃请附 `crash-reports/`）
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: config
+    attributes:
+      label: 配置
+      description: 如果改过 `config/ywzj_vehicle_armor.json`，请贴出相关条目
+      render: json
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 自检
+      options:
+        - label: 已确认 `mods/` 里只有一份 `ywzj_vehicle_armor` 及其它模组的同 modId 旧版本
+          required: false
+        - label: 已确认载具包只有一个来源（没有文件夹与 zip 并存）
+          required: false

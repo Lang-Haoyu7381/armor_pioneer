@@ -1,0 +1,22 @@
+name: repo-check
+
+# 只做不需要 Minecraft 的静态检查：没有构建产物混入、载具包清单的格式不变、
+# 所有 JSON 能解析、发行版 zip 的根目录结构正确。
+# 真正的编译与 42 项自检需要在装有 Forge / NeoForge 的机器上运行。
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check repository layout and pack format
+        run: python .github/scripts/check_repo.py

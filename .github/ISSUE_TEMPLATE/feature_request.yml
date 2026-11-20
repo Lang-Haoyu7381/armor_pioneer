@@ -1,0 +1,42 @@
+name: 功能建议
+description: 提出一个新功能、新载具适配或数值调整
+title: "[建议] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: 你想要什么
+      description: 描述你希望增加或改变的行为。
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: 为什么
+      description: 它解决了什么问题？有没有现实中的依据或公开资料？
+    validations:
+      required: false
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 类别
+      options:
+        - 新载具适配
+        - 装甲 / 弹药数值调整
+        - 机制（伤害、乘员、悬挂等）
+        - 载具包内容（模型、贴图、特效）
+        - 界面 / 键位
+        - 其它
+    validations:
+      required: true
+
+  - type: textarea
+    id: data
+    attributes:
+      label: 参考资料
+      description: 如果涉及数值，请附上来源（公开资料、手册、论坛测量等）。这个项目接受「有依据的估算」，但不接受无来源的拍脑袋数字。
+    validations:
+      required: false
