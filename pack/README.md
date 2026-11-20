@@ -14,14 +14,27 @@
 | ZTZ-100 | `armor_pioneer:ztz100` | 105 mm | 混动系统（`G` 切换柴油 / 纯电） |
 | 豹2A4 | `armor_pioneer:leopard2a4` | 120 mm | 16 管烟雾 |
 
-版本 **1.1.6**，依赖 `ywzj_vehicle` **`[0.6.3,)`**。
+版本 **1.1.7**，依赖 `ywzj_vehicle` **`[0.6.3,)`**。
+
+### 版本历史
+
+| 版本 | 日期 | 变更 |
+|---|---|---|
+| **1.1.7** | 2026-11-20 | 结构模型按 Blockbench 重新保存；10 式显示模型新增部件与履带贴图 |
+| 1.1.6 | 2026-11-17 | 车长武器站（`commander_machine_gun`）打开稳定器；描述补上豹2A4 |
+| 1.1.5 | 2026-11-17 | 七辆主炮塔的 `with_stabilizer` 改为 `true` |
+
+更早的版本变更见 [docs/兼容性.md](../docs/兼容性.md)。
+
+> 从 1.1.6 升级到 1.1.7 时，请先移除旧的 `armor_pioneer-1.1.6-0.6.3/` 文件夹再放入新包，
+> 否则同一命名空间会出现两份。
 
 ## 安装
 
 **方式一：解压成文件夹**（推荐，改模型和数值不用重新打包）
 
 ```
-.minecraft/versions/<版本>/limitless_vehicle/armor_pioneer-1.1.6-0.6.3/
+.minecraft/versions/<版本>/limitless_vehicle/armor_pioneer-1.1.7-0.6.3/
 ├── vehicle_pack.meta.json
 ├── assets/
 └── data/
@@ -30,7 +43,7 @@
 **方式二：直接放 zip**
 
 ```
-.minecraft/versions/<版本>/limitless_vehicle/armor_pioneer-1.1.6.zip
+.minecraft/versions/<版本>/limitless_vehicle/armor_pioneer-1.1.7.zip
 ```
 
 zip 的**根目录**必须直接是 `vehicle_pack.meta.json`、`assets/`、`data/`，不要再套一层文件夹。
@@ -74,4 +87,4 @@ armor_pioneer/
 ## 配套
 
 - 装甲数值不在这里，而在附属模组的 `config/ywzj_vehicle_armor.json`。
-- `patchers/` 是 1.0.0 时代对着 zip 改包的 PowerShell 补丁脚本，1.1.6 起包已改为文件夹形式，这些脚本**仅作存档参考**。
+- `patchers/` 是 1.0.0 时代对着 zip 改包的 PowerShell 补丁脚本，1.1.0 起包已改为文件夹形式，这些脚本**仅作存档参考**。

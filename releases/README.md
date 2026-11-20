@@ -28,7 +28,7 @@
 
 | 文件 | 大小 | 说明 |
 |---|---:|---|
-| `armor_pioneer-1.1.6.zip` | 5,256,678 B | 装甲先锋载具包，7 辆坦克 |
+| `armor_pioneer-1.1.7.zip` | 5,256,678 B | 装甲先锋载具包，7 辆坦克 |
 
 - 放入 `.minecraft/versions/<版本>/limitless_vehicle/`
 - zip 根目录直接包含 `vehicle_pack.meta.json`

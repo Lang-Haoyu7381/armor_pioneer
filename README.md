@@ -95,9 +95,9 @@
 
 ### 2. 安装装甲先锋载具包
 
-把 [releases/armor_pioneer-1.1.6.zip](releases/) 放进 `limitless_vehicle/` 即可，也可以解压成文件夹放进去。
+把 [releases/armor_pioneer-1.1.7.zip](releases/) 放进 `limitless_vehicle/` 即可，也可以解压成文件夹放进去。
 
-> ⚠️ **同一命名空间只能存在一个包。** 文件夹 `armor_pioneer-1.1.6-0.6.3/` 和 `armor_pioneer-1.1.6.zip` 同时存在时，基础模组只加载扫描到的第一个，另一个会打一行 `Duplicated namespace` 日志。换包时请把旧的移出目录，而不是改个后缀留在原地。
+> ⚠️ **同一命名空间只能存在一个包。** 文件夹 `armor_pioneer-1.1.7-0.6.3/` 和 `armor_pioneer-1.1.7.zip` 同时存在时，基础模组只加载扫描到的第一个，另一个会打一行 `Duplicated namespace` 日志。换包时请把旧的移出目录，而不是改个后缀留在原地。
 
 详细安装说明（含配置升级、常见问题）见 [docs/安装.md](docs/安装.md)。
 

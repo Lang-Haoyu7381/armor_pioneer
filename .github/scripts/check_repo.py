@@ -94,7 +94,7 @@ notes.append(f"checked {len(json_files)} pack JSON file(s)")
 # 4. the release zip carries the manifest at its root -----------------------
 import zipfile  # noqa: E402
 
-zip_path = ROOT / "releases" / "armor_pioneer-1.1.6.zip"
+zip_path = ROOT / "releases" / "armor_pioneer-1.1.7.zip"
 if zip_path.exists():
     with zipfile.ZipFile(zip_path) as z:
         names = set(z.namelist())
