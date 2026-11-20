@@ -1,0 +1,138 @@
+{
+    "name": "vt4_controller",
+    "parameters": {},
+    "switchable_animations": {
+        "door_driver": {"part_id": "door_driver", "animation": "animation.hulldoor.open"},
+        "door_gunner": {"part_id": "door_gunner", "animation": "animation.turretdoor.open"},
+        "door_commander": {"part_id": "door_commander", "animation": "animation.turretdoor2.open"}
+    },
+    "event_animations": {
+        "turret_fire": ["barrel_shoot"],
+        "commander_machine_gun_fire": ["machine_gun_shoot"]
+    },
+    "graph": {
+        // 合并节点，排在后面的pose会覆盖前面的pose中相同骨骼的动画
+        "type": "merge",
+        "inputs": [
+            {
+                "type": "additive",
+                "base": {
+                    "type": "merge",
+                    "inputs": [
+                        {
+                            // 骨骼绑定 pose
+                            "type": "bone_binding",
+                            "special_bindings": [
+                                {
+                                    "bones": ["vt5_wheel7", "vt5_wheel6", "vt5_wheel5", "vt5_wheel4", "vt5_wheel3", "vt5_wheel2"],
+                                    "source": "left_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.380152
+                                },
+                                {
+                                    "bones": ["vt5_wheel8"],
+                                    "source": "left_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.380152
+                                },
+                                {
+                                    "bones": ["vt5_wheel9"],
+                                    "source": "left_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.458116
+                                },
+                                {
+                                    "bones": ["vt5_wheel16", "vt5_wheel15", "vt5_wheel14", "vt5_wheel13", "vt5_wheel12", "vt5_wheel11"],
+                                    "source": "right_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.380152
+                                },
+                                {
+                                    "bones": ["vt5_wheel17"],
+                                    "source": "right_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.380152
+                                },
+                                {
+                                    "bones": ["vt5_wheel18"],
+                                    "source": "right_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.458116
+                                },
+                                {
+                                    "bones": ["vt5_roller_L_1", "vt5_roller_L_2", "vt5_roller_L_3"],
+                                    "source": "left_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.172467
+                                },
+                                {
+                                    "bones": ["vt5_roller_R_1", "vt5_roller_R_2", "vt5_roller_R_3"],
+                                    "source": "right_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.172467
+                                }
+],
+                            // 常规的绑定
+                            "part_bindings": [
+                                {
+                                    "bone": "turret_yaw",
+                                    "part": "turret",
+                                    "rotation_type": "y",
+                                    "axis": "y",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "turret_yaw2",
+                                    "part": "turret",
+                                    "rotation_type": "y",
+                                    "axis": "y",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "cannon_pitch",
+                                    "part": "turret",
+                                    "rotation_type": "x",
+                                    "axis": "x",
+                                    "invert": false
+                                },
+                                {
+                                    "bone": "machine_gun_yaw",
+                                    "part": "commander_machine_gun",
+                                    "rotation_type": "y",
+                                    "axis": "y",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "machine_gun_pitch",
+                                    "part": "commander_machine_gun",
+                                    "rotation_type": "x",
+                                    "axis": "x",
+                                    "invert": false
+                                }
+                            ]
+                        },
+                        {
+                            "type": "switchable_animation",
+                            "ref": "door_driver"
+                        },
+                        {
+                            "type": "switchable_animation",
+                            "ref": "door_gunner"
+                        },
+                        {
+                            "type": "switchable_animation",
+                            "ref": "door_commander"
+                        },
+                        {
+                            // 履带动画 pose，仅履带载具有效
+                            "type": "track_animation"
+                        }
+                    ]
+                },
+                "add": {
+                    "type": "event_animation"
+                }
+            }
+        ]
+    }
+}

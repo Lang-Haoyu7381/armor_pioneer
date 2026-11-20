@@ -1,0 +1,25 @@
+{
+    "type": "ywzj_vehicle:tracked_vehicle",
+    "model": "armor_pioneer:entity/vt4",
+    "texture": "armor_pioneer:textures/entity/vt4_tracks_olive.png",
+    "slot_texture": "armor_pioneer:textures/slot/vt4.png",
+    "animations": "armor_pioneer:entity/vt4.animation",
+    "animation_controller": "armor_pioneer:vt4_controller",
+    "sounds": {
+        "engine_start": "ywzj_vehicle:ztz99a_engine_start",
+        "engine_idle": "ywzj_vehicle:ztz99a_engine_idle",
+        "engine_run": "ywzj_vehicle:ztz99a_engine_run",
+        "track_run": "ywzj_vehicle:track_run"
+    },
+    "description": "vehicle.vt4.description",
+    "tab_index": 2102,
+    "track_config": {
+        "model": "armor_pioneer:effect/vt4_track_link",
+        "texture": "armor_pioneer:textures/entity/vt4_tracks_olive.png",
+        "module_length": 0.287446,
+        "left_track": "vt5_tread_l_move",
+        "right_track": "vt5_tread_r_move",
+        "track_width": 3.186751
+    },
+    "display_group": "armor_pioneer:entity/vt4"
+}

@@ -1,0 +1,40 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="ywzj_vehicle_armor"
+version="2.0.2"
+displayName="装甲等效与剩余穿深 (Ywzj Vehicle Armor)"
+authors="Ywzj Vehicle Armor"
+description='''
+Adds Squad-style armour equivalence and War Thunder-style residual penetration
+damage to vehicles provided by the Limitless Vehicle (ywzj_vehicle) mod.
+
+Built for Limitless Vehicle 0.6.3 on Minecraft 1.21.1 / NeoForge 21.1.
+Every value lives in config/ywzj_vehicle_armor.json and can be edited freely.
+'''
+
+[[dependencies.ywzj_vehicle_armor]]
+modId="neoforge"
+mandatory=true
+versionRange="[21.1,22)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.ywzj_vehicle_armor]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.21.1,1.22)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.ywzj_vehicle_armor]]
+modId="ywzj_vehicle"
+mandatory=true
+versionRange="[0.6.3,)"
+ordering="AFTER"
+side="BOTH"
+
+[[mixins]]
+config="ywzj_vehicle_armor.mixins.json"

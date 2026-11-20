@@ -1,0 +1,15 @@
+{
+  "blend": {
+    "func": "add",
+    "srcrgb": "one",
+    "dstrgb": "zero"
+  },
+  "vertex": "ywzj_vehicle_armor:night_vision",
+  "fragment": "ywzj_vehicle_armor:night_vision",
+  "attributes": [
+    "Position"
+  ],
+  "samplers": [
+    { "name": "DiffuseSampler" }
+  ]
+}

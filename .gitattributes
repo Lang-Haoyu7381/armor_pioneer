@@ -1,0 +1,23 @@
+# 仓库里同时有代码、CRLF 的载具 JSON 和二进制资源。
+# 载具包与模组资源里的 JSON 必须按原字节提交（换行、BOM 都会改变格式判断），
+# 所以 JSON 一律不做换行归一化。
+* text=auto eol=lf
+
+*.java   text eol=lf
+*.md     text eol=lf
+*.py     text eol=lf
+*.toml   text eol=lf
+*.mcmeta text eol=lf
+*.yml    text eol=lf
+
+# 资源文件保持原样
+*.json   -text
+*.ps1    -text
+*.fsh    -text
+*.vsh    -text
+
+# 二进制
+*.png    binary
+*.ogg    binary
+*.jar    binary
+*.zip    binary

@@ -1,0 +1,45 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "com.ywzjvehicle.armor.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "AbstractVehicleDriverSyncMixin",
+    "AbstractVehicleFordingMixin",
+    "AbstractVehicleHybridMixin",
+    "AbstractVehiclePowerMixin",
+    "AbstractVehicleSuspensionMixin",
+    "AbstractVehicleWeaponMixin",
+    "ActiveProtectionGrenadeMixin",
+    "AmmoEntityStateMixin",
+    "CrewFireMixin",
+    "CrewShotMixin",
+    "DamageSystemMixin",
+    "ExplosionMixin",
+    "FixedWingVehiclePowerMixin",
+    "LoaderReloadMixin",
+    "MissileTopAttackMixin",
+    "PartUnitRepairMixin",
+    "RepairToolMixin",
+    "RotatableUnitFordingMixin",
+    "SuspensionUnitMixin",
+    "TrackedVehicleElectricMixin",
+    "WeaponUnitHullSeatMixin"
+  ],
+  "client": [
+    "AbstractVehicleHybridSoundMixin",
+    "AbstractVehicleWeaponFireMixin",
+    "BulletEntitySonicBoomMixin",
+    "ParticleEngineAtlasAccessor",
+    "ParticlePositionAccessor",
+    "PartUnitRenderMixin",
+    "PeriscopeCameraMixin",
+    "RotatableUnitClientMixin",
+    "SingleQuadParticleSizeAccessor",
+    "TrackedVehicleElectricSmokeMixin",
+    "VehicleRenderPanelMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

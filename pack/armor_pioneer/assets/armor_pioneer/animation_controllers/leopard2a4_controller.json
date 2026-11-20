@@ -1,0 +1,181 @@
+{
+    "name": "leopard2a4_controller",
+    "parameters": {},
+    "event_animations": {
+        "turret_fire": [
+            "barrel_shoot"
+        ],
+        "commander_machine_gun_fire": [
+            "machine_gun_shoot"
+        ]
+    },
+    "switchable_animations": {
+        "door_driver": {
+            "part_id": "door_driver",
+            "animation": "animation.leopard2a4.hulldoor.open"
+        },
+        "door_commander": {
+            "part_id": "door_commander",
+            "animation": "animation.leopard2a4.turretdoor.open2"
+        },
+        "door_loader": {
+            "part_id": "door_loader",
+            "animation": "animation.leopard2a4.turetdoor.open"
+        }
+    },
+    "graph": {
+        "type": "merge",
+        "inputs": [
+            {
+                "type": "additive",
+                "base": {
+                    "type": "merge",
+                    "inputs": [
+                        {
+                            "type": "bone_binding",
+                            "part_bindings": [
+                                {
+                                    "bone": "turret_yaw",
+                                    "part": "turret",
+                                    "rotation_type": "y",
+                                    "axis": "y",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "turret_yaw2",
+                                    "part": "turret",
+                                    "rotation_type": "y",
+                                    "axis": "y",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "cannon_pitch",
+                                    "part": "turret",
+                                    "rotation_type": "x",
+                                    "axis": "x",
+                                    "invert": false
+                                },
+                                {
+                                    "bone": "leo_rws_yaw",
+                                    "part": "commander_machine_gun",
+                                    "rotation_type": "y",
+                                    "axis": "y",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "leo_rws_pitch",
+                                    "part": "commander_machine_gun",
+                                    "rotation_type": "x",
+                                    "axis": "x",
+                                    "invert": true
+                                }
+                            ],
+                            "special_bindings": [
+                                {
+                                    "bones": [
+                                        "vt5_wheel7",
+                                        "vt5_wheel6",
+                                        "vt5_wheel5",
+                                        "vt5_wheel4",
+                                        "vt5_wheel3",
+                                        "vt5_wheel2",
+                                        "vt5_wheel19"
+                                    ],
+                                    "source": "left_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.40625
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_wheel8"
+                                    ],
+                                    "source": "left_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.40625
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_wheel9"
+                                    ],
+                                    "source": "left_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.47625
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_wheel16",
+                                        "vt5_wheel15",
+                                        "vt5_wheel14",
+                                        "vt5_wheel13",
+                                        "vt5_wheel12",
+                                        "vt5_wheel11",
+                                        "vt5_wheel20"
+                                    ],
+                                    "source": "right_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.40625
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_wheel17"
+                                    ],
+                                    "source": "right_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.40625
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_wheel18"
+                                    ],
+                                    "source": "right_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.47625
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_roller_L_1",
+                                        "vt5_roller_L_2",
+                                        "vt5_roller_L_3",
+                                        "vt5_roller_L_4"
+                                    ],
+                                    "source": "left_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.184375
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_roller_R_1",
+                                        "vt5_roller_R_2",
+                                        "vt5_roller_R_3",
+                                        "vt5_roller_R_4"
+                                    ],
+                                    "source": "right_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.184375
+                                }
+                            ]
+                        },
+                        {
+                            "type": "track_animation"
+                        },
+                        {
+                            "type": "switchable_animation",
+                            "ref": "door_driver"
+                        },
+                        {
+                            "type": "switchable_animation",
+                            "ref": "door_commander"
+                        },
+                        {
+                            "type": "switchable_animation",
+                            "ref": "door_loader"
+                        }
+                    ]
+                },
+                "add": {
+                    "type": "event_animation"
+                }
+            }
+        ]
+    }
+}

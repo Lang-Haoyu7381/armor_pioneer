@@ -1,0 +1,48 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="ywzj_vehicle_armor"
+version="2.0.22"
+displayName="装甲等效与剩余穿深 (Ywzj Vehicle Armor)"
+authors="Ywzj Vehicle Armor"
+description='''
+Adds Squad-style armour equivalence and War Thunder-style residual penetration
+damage to vehicles provided by the Limitless Vehicle (ywzj_vehicle) mod.
+
+Built for Limitless Vehicle 0.6.3 (its suspension solver reads a single
+rest length per unit; the old per-support-point array is gone and this build
+follows that change). Covers the Vintage Vehicle Pack,
+Armor Pioneer (VT-5 / VT-4 / K2 / Type 10 / Tianma-20 / ZTZ-100), the tank
+pack's ground vehicles, the War of Resistance Carrierpack's Vickers 6-Ton, and
+the tank pack's three WWII fighters, with per-plate armour
+tables, an aircraft skin-and-component model (Bf 109E-4 / Fw 190A-5 /
+P-51D-20) and a power-to-weight factor for both, ammunition filed by warhead
+and weapon class, a crew-role system, an adjustable suspension, a fording kit,
+the ZTZ-100's hybrid-electric drive (G), and a compendium and scanner drawn in
+the base mod's HUD language.
+
+Every value lives in config/ywzj_vehicle_armor.json and can be edited freely.
+'''
+
+[[dependencies.ywzj_vehicle_armor]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.ywzj_vehicle_armor]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.21)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.ywzj_vehicle_armor]]
+modId="ywzj_vehicle"
+mandatory=true
+versionRange="[0.6.3,)"
+ordering="AFTER"
+side="BOTH"

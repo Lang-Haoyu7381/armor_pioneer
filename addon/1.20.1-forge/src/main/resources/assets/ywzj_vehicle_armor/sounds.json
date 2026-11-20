@@ -1,0 +1,102 @@
+{
+  "cannon_light": {
+    "subtitle": "subtitles.ywzj_vehicle_armor.cannon_light",
+    "sounds": [
+      {
+        "name": "ywzj_vehicle_armor:weapon/cannon_light_1",
+        "stream": false
+      },
+      {
+        "name": "ywzj_vehicle_armor:weapon/cannon_light_2",
+        "stream": false
+      }
+    ]
+  },
+  "cannon_medium": {
+    "subtitle": "subtitles.ywzj_vehicle_armor.cannon_medium",
+    "sounds": [
+      {
+        "name": "ywzj_vehicle_armor:weapon/cannon_medium_1",
+        "stream": false
+      },
+      {
+        "name": "ywzj_vehicle_armor:weapon/cannon_medium_2",
+        "stream": false
+      }
+    ]
+  },
+  "cannon_heavy": {
+    "subtitle": "subtitles.ywzj_vehicle_armor.cannon_heavy",
+    "sounds": [
+      {
+        "name": "ywzj_vehicle_armor:weapon/cannon_heavy_1",
+        "stream": false
+      },
+      {
+        "name": "ywzj_vehicle_armor:weapon/cannon_heavy_2",
+        "stream": false
+      }
+    ]
+  },
+  "cannon_artillery": {
+    "subtitle": "subtitles.ywzj_vehicle_armor.cannon_artillery",
+    "sounds": [
+      {
+        "name": "ywzj_vehicle_armor:weapon/cannon_artillery_1",
+        "stream": false
+      },
+      {
+        "name": "ywzj_vehicle_armor:weapon/cannon_artillery_2",
+        "stream": false
+      }
+    ]
+  },
+  "autocannon": {
+    "subtitle": "subtitles.ywzj_vehicle_armor.autocannon",
+    "sounds": [
+      {
+        "name": "ywzj_vehicle_armor:weapon/autocannon_1",
+        "stream": false
+      },
+      {
+        "name": "ywzj_vehicle_armor:weapon/autocannon_2",
+        "stream": false
+      }
+    ]
+  },
+  "cannon_echo": {
+    "subtitle": "subtitles.ywzj_vehicle_armor.cannon_echo",
+    "sounds": [
+      {
+        "name": "ywzj_vehicle_armor:weapon/cannon_echo",
+        "stream": false
+      }
+    ]
+  },
+  "breech_clank": {
+    "subtitle": "subtitles.ywzj_vehicle_armor.breech_clank",
+    "sounds": [
+      {
+        "name": "ywzj_vehicle_armor:weapon/breech_clank",
+        "stream": false
+      }
+    ]
+  },
+  "projectile_crack": {
+    "subtitle": "subtitles.ywzj_vehicle_armor.projectile_crack",
+    "sounds": [
+      {
+        "name": "ywzj_vehicle_armor:weapon/projectile_crack_1",
+        "stream": false
+      },
+      {
+        "name": "ywzj_vehicle_armor:weapon/projectile_crack_2",
+        "stream": false
+      },
+      {
+        "name": "ywzj_vehicle_armor:weapon/projectile_crack_3",
+        "stream": false
+      }
+    ]
+  }
+}

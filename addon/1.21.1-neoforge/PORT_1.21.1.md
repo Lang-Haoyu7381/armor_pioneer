@@ -1,0 +1,252 @@
+# 装甲附属 — Minecraft 1.21.1 / NeoForge 21.1.230 移植说明
+
+底模：**`ywzj_vehicle-1.21.1-0.6.3.jar`**（NeoForge 版，安装包内自带）。
+
+产物：`build1211/libs/ywzj_vehicle_armor-2.0.0-1.21.1.jar`（687,888 字节，
+sha256 `42537E877F3F98B96368D053C89DB2B84BEF4D787C1B3A73B5C47664B2AF390E`）。
+
+1.20.1 的工程与产物没有改动；这是一个独立目录。
+
+## 构建与自检
+
+```powershell
+powershell -ExecutionPolicy Bypass -File build1211.ps1     # javac --release 21
+python tools/mixin_audit.py                               # 28 个 Mixin 的目标名全部对得上
+```
+
+`build1211.ps1` 直接从 `E:\.minecraft\libraries` 取 1.21.1 的编译依赖，不需要 Gradle。
+`tools/launch1211.py` 生成 `launch1211.args`，用 `java @launch1211.args` 可以不经启动器
+直接进游戏（设置 `QUICKPLAY=<存档目录名>` 可直入存档）。
+
+## 这次做了什么
+
+### 1. 成员名：SRG → Mojang 官方名
+
+1.21.1 的运行时 jar 文件名里仍带 `srg`，但 `javap` 看到的是 `Vec3.x`，即官方名。
+源码原来是对着 SRG 名字写的，共替换 **1,078 处**。
+
+映射表由 `tools/build_srg_mojmap.py` 用同版本的两份映射桥接产生：
+
+- `mcp_config/1.20.1/config/joined.tsrg`：混淆名 → SRG（方法带描述符）
+- `client-1.20.1-...-mappings.txt`：混淆名 → Mojang（字段带类型，方法带签名）
+
+两边用混淆名和描述符对齐后得到 44,641 条 SRG → Mojang。替换后 javac 只剩 1 处未映射
+（`MinecraftServer.m_129783_` → `overworld()`，手改）。
+
+### 2. 网络：SimpleChannel 已删除
+
+NeoForge 1.21 用 `CustomPacketPayload` + `StreamCodec`，`NetworkRegistry` / `SimpleChannel`
+整个不存在。11 个消息 record 改为：
+
+```java
+implements CustomPacketPayload
+public static final Type<X> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(...));
+public static final StreamCodec<RegistryFriendlyByteBuf, X> CODEC =
+        CustomPacketPayload.codec(X::encode, X::decode);   // 注意是成员编码器，参数序 (值, buffer)
+public static void handle(X message, IPayloadContext context)
+```
+
+`VehicleArmorNetwork` 改为监听 `RegisterPayloadHandlersEvent`，用协议版本字符串 `"15"` 注册
+（旧的 `clientAcceptedVersions` 语义保留：版本不同的客户端会被拒绝）。
+发送端统一换成 `PacketDistributor.sendToServer / sendToPlayer / sendToPlayersTrackingEntity`。
+`DistExecutor` 在 1.21 已删除，客户端分支直接调用，是否执行由 `playToClient` 注册决定。
+
+### 3. 注册表与事件
+
+- `RegistryObject<T>` → `DeferredHolder<注册表类型, T>`；`ForgeRegistries.X` →
+  `Registries.X`（注册）/ `BuiltInRegistries.X`（查询）。
+- `MinecraftForge.EVENT_BUS` → `NeoForge.EVENT_BUS`；`FMLJavaModLoadingContext` →
+  构造函数注入 `IEventBus`。
+- `TickEvent.Phase.END` → `ServerTickEvent.Post` / `ClientTickEvent.Post` /
+  `PlayerTickEvent.Post`（`ClientTickEvent` 在 `neoforge.client.event` 包）。
+- `IGuiOverlay` + `ForgeGui` → `LayeredDraw.Layer`，`RegisterGuiOverlaysEvent` →
+  `RegisterGuiLayersEvent`；尺寸从 `GuiGraphics.guiWidth()/guiHeight()` 取。
+- `new ResourceLocation(...)` → `ResourceLocation.fromNamespaceAndPath` / `parse`。
+- `Screen.mouseScrolled` 多了一个横向滚动轴；`RenderGuiEvent.getWindow()` 不再存在。
+
+### 4. 其他
+
+- `ParticleRenderType` 只剩 `begin(Tesselator, TextureManager)`，返回 `BufferBuilder`；
+  状态清理由引擎在本轮粒子绘制结束时做。
+- `MobEffectInstance` 只接受 `Holder<MobEffect>`；`Registry.getValue` 已删除，改 `getHolder`。
+- TACZ 引用改为反射：1.21.1 端没有可编译的 TACZ jar。行为不变，仍然只有 `TaczBridge`
+  一个类提到 `com.tacz`，且只在 `loaded()` 为真后才解析。
+- mods.toml → `META-INF/neoforge.mods.toml`（依赖 neoforge `[21.1,22)`、
+  minecraft `[1.21.1,1.22)`、ywzj_vehicle `[0.6.2.1,)`，`[[mixins]]` 指向配置）。
+- `pack.mcmeta` 资源包格式 15 → 34；Mixin 配置 `JAVA_17` → `JAVA_21`。
+- 打包时排除 `*.bak` 开发备份。
+
+## 实际运行结果（2026-11-15）
+
+在本机 `1.21.1-NeoForge_21.1.230` 实例上实测：
+
+- 模组出现在 mod 列表：`装甲等效与剩余穿深 (Ywzj Vehicle Armor) 2.0.0`
+- 配置生成成功：`config/ywzj_vehicle_armor.json`，`config_version` 80
+- 日志：`20 vehicle profile(s), 60 ammunition entry(ies), 2 with a switchable fuze`
+- `armor_pioneer-1.1.0-0.6.2` 被底模识别并作为数据包加载，无配方解析错误
+- 28 个 Mixin 全部 `Preparing` 成功；进入存档后，
+  `AbstractVehicle`、`TrackedVehicle`、`PartUnit`、`WeaponUnit`、`RotatableUnit`、
+  `SuspensionUnit`、`AmmoEntity`、`LocalVehiclePlayer` 等目标均成功注入，无失败
+- 世界内车辆（`tank_assault:type82` 等）触发了悬挂 Mixin 的实际执行日志
+
+## 尚未在游戏内逐项验证
+
+编译和加载已经通过，但下面这些需要真正开一炮/按一次键才能确认：
+
+1. 火炮命中与剩余穿深伤害（`ArmorSystem` → `DamageSystemMixin`）
+2. 乘员角色/接管、遥控武器站、烟雾组、悬挂按键、涉水套件、混动（对应网络往返）
+3. HUD 条（`LayeredDraw` 层）与夜视后期着色器（1.21 着色器格式）
+4. TACZ 联动（当前实例未装 1.21.1 版 TACZ）
+
+## 实例上的附带改动
+
+- 新装 `ywzj_vehicle_armor-2.0.0-1.21.1.jar`
+- 新装 `limitless_vehicle/armor_pioneer-1.1.0-0.6.2/`（来自 1.20.1 实例）
+- `tankassault_push-neoforge-1.21.1-1.0.0.jar` 已改名为 `.disabled`：它注入底模
+  `VehicleOverlay.renderBaseInfo`，而 1.21.1 底模没有这个方法，**在装本附属之前就会崩**。
+
+
+## 2026-11-17：0.6.3 适配（2.0.1-1.21.1）
+
+底模升到 **1.21.1 / 0.6.3**（16,447,116 字节）。与 1.20.1 端一样，0.6.3 唯一的破坏性改动是悬挂：
+
+- `SuspensionUnit` 的"多支撑点"变成"单个支撑中心"，**`supportRestLengths` /
+  `supportMaxCompressions` 被删除**；`findContactLength` 直接读 `restLength`，
+  `calibrateRestLengths` 也直接写它。
+- `SuspensionUnitMixin` 现在**只 shadow `restLength`**，写"标定值 + 偏置"。
+  旧版 shadow 数组会在类转换阶段崩掉，进不了主菜单。
+- `tools/mixin_audit.py` 的 BASE 改成**自动取实例 mods 里最新的 1.21.1 底模 jar**
+  （可用 `YWZJ_JAR` 覆盖），不再写死版本。
+- `neoforge.mods.toml`：版本 2.0.1，依赖 `[0.6.3,)`。
+- `build1211.ps1` 产物改名 `ywzj_vehicle_armor-2.0.1-1.21.1.jar`。
+
+自检：
+
+- `python tools/mixin_audit.py` → **28 个 mixin 目标类，0 问题**（含全部 `@Shadow` 字段）。
+- `verify1211_addon.ps1`（LeopardAddonCheck）→ **PASS**。
+
+产物：`build1211/libs/ywzj_vehicle_armor-2.0.1-1.21.1.jar`，691,125 字节，sha256
+`575E89E346187A08927163ABBB690F835BD8DC3D47D6D2A54EA7322ED53B8303`，已装入
+`1.21.1-NeoForge_21.1.230\mods\`；旧版备份为
+`ywzj_vehicle_armor-2.0.0-1.21.1.jar.before_063.bak`。
+
+载具包同步到 **1.1.6 / 0.6.3**（依赖 `[0.6.3,)`）：`limitless_vehicle\armor_pioneer-1.1.6-0.6.3\`，
+由 1.20.1 实例的干净镜像复制而来；旧的 `armor_pioneer-1.1.0-0.6.2` 已移出扫描目录
+（移到 `…\2026-11-17\778cadbc-…\backups\armor_pioneer-1.1.0-0.6.2-from1211`），
+避免同一命名空间两个包。
+
+底模的 `default_vehicle` 会在下次启动时自动从 1.9.1 换成 jar 里的 1.9.2（版本字符串比较）。
+
+**尚未在游戏内启动验证过 0.6.3。** 另外，1.21.1 这棵树当时 `CONFIG_VERSION` 是 **85**，
+比 1.20.1 的 86 **少 11-17 加进来的飞机块**（Bf 109E-4 / Fw 190A-5 / P-51D-20）；
+**这一点已在 2026-11-17 补齐，见下节（v87）。**
+
+## 2026-11-15 追加：豹2A4 车体侧面附加装甲
+
+与 1.20.1 同一次改动：载具块上的 hull_side_addon（150 血，60/40/20% 即 90/60/30mm，
+第三发后消失，左右共用一个血池，先于爆反和主装甲结算）。CONFIG_VERSION 80 → 81，
+升级时旧文件自动补上这块。扫描仪读数 gui.ywzj_vehicle_armor.zone.addon_hp。
+
+自检：	ools/LeopardAddonCheck.java + erify1211_addon.ps1，26 项全部通过
+（含 v80 -> v81 迁移）。python tools/mixin_audit.py 仍为 28 个目标、0 问题。
+
+产物：uild1211/libs/ywzj_vehicle_armor-2.0.0-1.21.1.jar，689,361 字节，
+sha256 48981804FE4E8A64E5F0FB387BA5CE4875B17B4C176E881251BD9CDDBBE8BA9C，
+已装入 1.21.1-NeoForge_21.1.230\mods\；旧版备份为
+ywzj_vehicle_armor-2.0.0-1.21.1.jar.before_leopard_addon.bak。
+
+## 2026-11-17：坦克突击其余 19 辆 + 飞机块（CONFIG_VERSION 87）
+
+- **19 辆地面载具整体移植**：`a22f`、`matilda_mk1`、`valentine_mk2`、`qf17pdr`、`qf25`、
+  `panzer4h`、`ferdinand`、`sturmtiger`、`sdkfz251`、`sdkfz2`、`bmw_r75`、`type82`、`bt7v`、
+  `t26b`、`kv1mod1942`、`t3485`、`t44a`、`su122`、`p40`，连同 29 发弹药；数值与 1.20.1 完全一致。
+- **飞机块补齐**：`aircraft` 字段、`AircraftArmor` / `AircraftComponent`、三架飞机的 builder、
+  `ArmorSystem` 的 `resolveAircraftHit` / `isWingHit` / `aircraftFace` / `componentHits` /
+  `componentBox` / `applyAircraftDamage` / `woundComponentCrew` / `aircraftPlate` / `partById`，
+  以及 `plateFor` 的扫描仪分支、`tryHandle` 的爆炸分支、`sanitize` 与 `upgrade` 的 `aircraft`
+  处理。**`CONFIG_VERSION` 从 85 直接升到 87**，两棵树的默认配置不再有版本差。
+- **平台差异只有 Minecraft 方法名**：`m_82549_` → `add`、`m_82541_` → `normalize`、
+  `m_82546_` → `subtract`、`m_82526_` → `dot`、`m_82490_` → `scale`、`m_6469_` → `hurt`、
+  `m_19385_` → `getMsgId`、`m_7640_` → `getDirectEntity`；另补 `java.util.List/ArrayList/
+  Comparator` 和 `org.joml.Quaternionf` 的 import。
+- **`tools/PackLocator.java` + `tools/AircraftCheck.java` 加入这棵树**；`PackLocator` 的实例
+  目录改读 `MC_INSTANCE`（与 `LeopardAddonCheck` 一致）。`verify1211_addon.ps1` 现在编译三个
+  工具并运行 `AircraftCheck`。
+- **载具包同步到 `tank_assault_1116.zip`**：1.21.1 实例原来是 `tank_assault_0930_mk8.zip`
+  （缺 `bmw_r75` / `panzer4h` / `su122` / `p51d20`），已改名为
+  `tank_assault_0930_mk8.zip.before_1116.bak`（扫描不读 `.bak`），再复制 1.20.1 实例的 1116 包。
+- 自检：
+  - `build1211.ps1` → 95 个源文件编译通过。
+  - `verify1211_addon.ps1` → `LEOPARD ADD-ON CHECK: PASS` + `AircraftCheck` 通过。
+  - `python tools/mixin_audit.py` → 28 个 mixin 目标类，0 问题。
+
+产物：`build1211/libs/ywzj_vehicle_armor-2.0.1-1.21.1.jar`，702,199 字节，sha256
+`A5EC9B4723385E26CADC5C59E0713BB57F0695F338918234F25161FEAFA733FD`，已装入
+`1.21.1-NeoForge_21.1.230\mods\`；旧版备份为
+`ywzj_vehicle_armor-2.0.1-1.21.1.jar.before_tankassault.bak`。
+
+**尚未在游戏内启动验证过 2.0.1 + v87。**
+
+## 2026-11-17 追加：发动机与吨马力（CONFIG_VERSION 88）
+
+- **坦克突击的 19 辆新车 + 豹式/虎式**补上 `engine_horsepower` / `horsepower_per_ton`；
+  两辆牵引炮（17 磅 / 25 磅）显式保持 0。数值与 1.20.1 完全一致，引用重量见 README
+  「发动机马力与吨马力」一节。
+- **迁移只填 0**：v87 文件已经有这些车（上一版加的），但两个字段是 0；v88 的升级路径
+  按 0 填充，手填值保留。
+- **`tools/EngineCheck.java` 加入这棵树**，从 1.20.1 原样复制；它同时检查 `armor_pioneer`
+  与 `tank_assault`，飞机按 `type` 跳过。`verify1211_addon.ps1` 现在编译四个工具并依次运行
+  `LeopardAddonCheck`、`AircraftCheck`、`EngineCheck`。
+- **倍率下限从 0.5 放到 0.2**：二战车全部低于 0.5，原来的夹子会把整代车压成 ×0.50。
+  现在最低的玛蒂尔达 I 是 6.3 hp/t = 基准的 0.25，0.2 在所有配置值之下，倍率就是物理值。
+- 自检：`build1211.ps1` 通过；`verify1211_addon.ps1` → `LEOPARD ADD-ON CHECK: PASS`
+  + `AircraftCheck` 通过 + `EngineCheck` 通过（28 辆车、28 条发动机记录）。
+
+产物：`build1211/libs/ywzj_vehicle_armor-2.0.1-1.21.1.jar`，702,879 字节，sha256
+`684A1788561DF6E249383C68DD5B76EA41B542606C446102435D98282EA8C9A6`，已装入
+`1.21.1-NeoForge_21.1.230\mods\`；上一版备份为
+`ywzj_vehicle_armor-2.0.1-1.21.1.jar.before_floor.bak`（再上一版是 `.before_engines.bak`）。
+
+## 2026-11-18：坦克突击全量复核（CONFIG_VERSION 91）
+
+- 与 1.20.1 同一次改动：19 辆车 + 豹式/虎式 + 三架飞机的装甲/穿深按公开资料重校。口径：
+  动能面值 = 视线厚度，破甲表 = 名义板厚，穿深 = 0°/500m。
+- 迁移是逐字段的，每个面只在仍是旧出厂值时移动；豹式 AP 的骰子上限单独按旧值 200 迁移。
+- `AircraftCheck` 的座椅断言改为"挡住标准步枪弹"（8mm 背板挡 5mm 普通弹，挡不住 11mm S.m.K.）。
+- 自检：`build1211.ps1` 通过；`verify1211_addon.ps1` → `LEOPARD ADD-ON CHECK: PASS` +
+  `AircraftCheck` 通过 + `EngineCheck` 通过；`mixin_audit.py` **29 个目标、0 问题**。
+- 这棵树的 `CONFIG_VERSION` 从 89 直接到 91：1.20.1 的 v90 分支（用户自己的改动）没有移植，
+  两个数字相同不代表内容相同，移植 v90 时要另起一个版本号。
+
+产物：`build1211/libs/ywzj_vehicle_armor-2.0.2-1.21.1.jar`，718,258 字节，sha256
+`5ECE9E51CC75101A47ACE0BE60D9A29A341E322DEBEE1F6CAF96D8550CC6E2FA`，已装入
+`1.21.1-NeoForge_21.1.230\mods\`；上一版 2.0.1 备份为
+`ywzj_vehicle_armor-2.0.1-1.21.1.jar.before_regrade91.bak`。
+
+## 2026-11-18：坦克突击包更新（`tank_assault_20261118.zip`）
+
+两个实例的 `tank_assault_1116.zip` 都已换成本次更新的 `tank_assault_20261118.zip`
+（8,230,086 字节）。逐文件比对（文件清单完全相同，36 个文件内容变化）：
+
+- **18 辆地面车**（a22f、bt7v、ferdinand、kv1mod1942、matilda_mk1、p40、panzer4h、panther、
+  qf25、sdkfz2、sdkfz251、sturmtiger、su122、t26b、t3485、t44a、tiger、valentine_mk2）：
+  每侧首个/末个悬挂在 `vehicle.json` 里加了 `center_offset`（z 方向），对应的
+  `structure.json` 悬挂方块把 z 尺寸/原点收到轮心。
+- **SU-122**：5 个负重轮的 `render_bone` 顺序修正（`Left_road_wheel_2..5,1` →
+  `Left_road_wheel_1..5`，右侧同理）。
+- **其它全部未变**：武器、显示模型、贴图、配方、质量、血量、部件列表都没动。车体盒、炮塔盒、
+  履带内缘、炮管/机枪口偏移逐项量过，与 1116 一致。
+
+**对装甲附属的影响：无。** `center_offset` 是基础模组 0.6.3 的履带视觉字段，本附属不读；
+`SuspensionUnitMixin` 只写 `restLength`；这 18 辆也不在 `Profile.suspensions` 里。
+
+复验：`add_vehicle.ps1 check` 的 `tank_assault` 段 24 辆，只有此前已知的豹式机枪口 y 漂移
+（配置 0.700 / 测得 0.415）；1.21.1 的 `AircraftCheck` 与 `EngineCheck` 均通过。
+
+> 顺带发现（不属于坦克突击）：`armor_pioneer` 已换成 **1.1.6** 文件夹，模型里豹2A4 多了
+> `door_commander` / `door_loader` 两个挂在炮塔骨骼下的部件，而配置的 `turret_part_ids` 还没
+> 有它们，`VehicleScaffold` 因此多一条“derived extra”，和已知的 K2 舱门同一类。未在本次改动。
+>
+> 同一次包更新还冲掉了 `armor_pioneer` 的**涉水通气管补丁**（7 辆车的 `snorkel` 部件、显示骨骼、
+> 动画、控制器绑定和两条 lang 键），`FordingCheck` 因此在未打补丁的包上变红。**按用户要求，
+> 补丁保持未打状态**，由用户自己处理；本次未做恢复。

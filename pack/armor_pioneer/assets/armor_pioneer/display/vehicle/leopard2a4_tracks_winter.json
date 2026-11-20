@@ -1,0 +1,25 @@
+{
+    "type": "ywzj_vehicle:tracked_vehicle",
+    "model": "armor_pioneer:entity/leopard2a4",
+    "texture": "armor_pioneer:textures/entity/leopard2a4_tracks_winter.png",
+    "slot_texture": "armor_pioneer:textures/slot/leopard2a4.png",
+    "animations": "armor_pioneer:entity/leopard2a4.animation",
+    "animation_controller": "armor_pioneer:leopard2a4_controller",
+    "sounds": {
+        "engine_start": "ywzj_vehicle:ztz99a_engine_start",
+        "engine_idle": "ywzj_vehicle:ztz99a_engine_idle",
+        "engine_run": "ywzj_vehicle:ztz99a_engine_run",
+        "track_run": "ywzj_vehicle:track_run"
+    },
+    "description": "vehicle.leopard2a4.description",
+    "tab_index": 2107,
+    "track_config": {
+        "model": "armor_pioneer:effect/leopard2a4_track_link",
+        "texture": "armor_pioneer:textures/entity/leopard2a4_tracks_winter.png",
+        "module_length": 0.298317,
+        "left_track": "vt5_tread_l_move",
+        "right_track": "vt5_tread_r_move",
+        "track_width": 3.4075
+    },
+    "display_group": "armor_pioneer:entity/leopard2a4"
+}

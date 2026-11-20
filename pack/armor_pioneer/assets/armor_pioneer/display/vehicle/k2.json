@@ -1,0 +1,22 @@
+{
+	"type": "ywzj_vehicle:tracked_vehicle",
+	"model": "armor_pioneer:entity/k2",
+	"texture": "armor_pioneer:textures/entity/k2.png",
+	"slot_texture": "armor_pioneer:textures/slot/k2.png",
+	"animations": "armor_pioneer:entity/k2.animation",
+	"animation_controller": "armor_pioneer:k2_controller",
+	"sounds": {
+		"engine_start": "ywzj_vehicle:ztz99a_engine_start",
+		"engine_idle": "ywzj_vehicle:ztz99a_engine_idle",
+		"engine_run": "ywzj_vehicle:ztz99a_engine_run",
+		"track_run": "ywzj_vehicle:track_run"
+	},
+	"description": "vehicle.k2.description",
+	"tab_index": 2103,
+	"track_config": {
+		"model": "armor_pioneer:effect/k2_track_link",
+		"texture": "armor_pioneer:textures/entity/k2.png",
+		"module_length": 0.298312,
+		"track_width": 3.4075
+	}
+}

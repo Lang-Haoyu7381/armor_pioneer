@@ -1,0 +1,25 @@
+{
+    "type": "ywzj_vehicle:cannon",
+    "name": "DTP2-105 HEAT",
+    "caliber": 105,
+    "tracer_r": 1,
+    "tracer_g": 0.3,
+    "tracer_b": 0.3,
+    "damage": 600,
+    "velocity": 20,
+    "headshot_multiplier": 1,
+    "recoil": 1,
+    "inaccuracy": 0.03,
+    "shoot_interval": 400,
+    "max_capacity": 1,
+    "reload": {
+        "time": 80,
+        "ammo": "ywzj_vehicle:ammo_artillery"
+    },
+    "explosion": {
+        "explode": true,
+        "damage": 800,
+        "radius": 4,
+        "destroy_block": true
+    }
+}

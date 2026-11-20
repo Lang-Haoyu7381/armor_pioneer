@@ -1,0 +1,30 @@
+{
+    "type": "ywzj_vehicle:missile",
+    "name": "KSTAM-II 120mm",
+    "caliber": 120,
+    "damage": 800,
+    "headshot_multiplier": 1.5,
+    "shoot_interval": 1500,
+    "max_capacity": 1,
+    "reload": {
+        "time": 80,
+        "ammo": "ywzj_vehicle:ammo_missile"
+    },
+    "explosion": {
+        "explode": true,
+        "damage": 300,
+        "radius": 4,
+        "destroy_block": true
+    },
+    "seeker_fov": 30,
+    "mass": 16,
+    "thrust": 2200,
+    "motor_burn_time": 120,
+    "drag_coefficient": 0.15,
+    "max_g": 15,
+    "reference_speed": 4,
+    "guidance": "PRESET",
+    "preset_cruise_altitude": 16,
+    "preset_ascent_distance": 32,
+    "preset_dive_distance": 40
+}

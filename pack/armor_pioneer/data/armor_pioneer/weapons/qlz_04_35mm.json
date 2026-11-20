@@ -1,0 +1,22 @@
+{
+	"type": "ywzj_vehicle:cannon",
+	"name": "QLZ-04 35mm AGL",
+	"caliber": 35,
+	"velocity": 10,
+	"damage": 20,
+	"recoil": 0.1,
+	"inaccuracy": 0.3,
+	"headshot_multiplier": 1.0,
+	"shoot_interval": 150,
+	"max_capacity": 30,
+	"reload": {
+		"time": 100,
+		"ammo": "ywzj_vehicle:ammo_auto_cannon"
+	},
+	"explosion": {
+		"explode": true,
+		"damage": 25,
+		"radius": 2.0,
+		"destroy_block": true
+	}
+}

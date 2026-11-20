@@ -1,0 +1,5 @@
+{
+    "model": "armor_pioneer:decoration/camo_net_strip",
+    "texture": "armor_pioneer:textures/decoration/camo_net.png",
+    "description": "armor_pioneer.camo_net_strip.description"
+}

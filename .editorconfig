@@ -1,0 +1,21 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.{json,md}]
+indent_size = 2
+
+[*.json]
+# 载具包与模组资源里的 JSON 保留原始换行，编辑器不要改写
+end_of_line = unset
+trim_trailing_whitespace = false
+
+[*.ps1]
+end_of_line = crlf
+indent_size = 4

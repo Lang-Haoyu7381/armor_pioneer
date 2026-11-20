@@ -1,0 +1,199 @@
+{
+    "name": "tianma20_controller",
+    "parameters": {},
+    "switchable_animations": {
+        "door_driver": {
+            "part_id": "door_driver",
+            "animation": "animation.tianma20.hulldoor.open"
+        },
+        "door_gunner": {
+            "part_id": "door_gunner",
+            "animation": "animation.tianma20.turretdoor.open"
+        },
+        "door_commander": {
+            "part_id": "door_commander",
+            "animation": "animation.tianma20.turretdoor.open2"
+        }
+    },
+    "event_animations": {
+        "turret_fire": [
+            "barrel_shoot"
+        ],
+        "commander_machine_gun_fire": [
+            "machine_gun_shoot"
+        ],
+        "aps_left_fire": [
+            "aps_left_shoot"
+        ],
+        "aps_right_fire": [
+            "aps_right_shoot"
+        ]
+    },
+    "graph": {
+        "type": "merge",
+        "inputs": [
+            {
+                "type": "additive",
+                "base": {
+                    "type": "merge",
+                    "inputs": [
+                        {
+                            "type": "bone_binding",
+                            "special_bindings": [
+                                {
+                                    "bones": [
+                                        "vt5_wheel19",
+                                        "vt5_wheel7",
+                                        "vt5_wheel6",
+                                        "vt5_wheel5",
+                                        "vt5_wheel4",
+                                        "vt5_wheel3",
+                                        "vt5_wheel2",
+                                        "vt5_wheel8"
+                                    ],
+                                    "source": "left_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.387759
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_wheel9"
+                                    ],
+                                    "source": "left_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.454452
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_wheel20",
+                                        "vt5_wheel16",
+                                        "vt5_wheel15",
+                                        "vt5_wheel14",
+                                        "vt5_wheel13",
+                                        "vt5_wheel12",
+                                        "vt5_wheel11",
+                                        "vt5_wheel17"
+                                    ],
+                                    "source": "right_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.387759
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_wheel18"
+                                    ],
+                                    "source": "right_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.454452
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_roller_L_1",
+                                        "vt5_roller_L_2",
+                                        "vt5_roller_L_3"
+                                    ],
+                                    "source": "left_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.175917
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_roller_R_1",
+                                        "vt5_roller_R_2",
+                                        "vt5_roller_R_3"
+                                    ],
+                                    "source": "right_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.175917
+                                }
+                            ],
+                            "part_bindings": [
+                                {
+                                    "bone": "turret_yaw",
+                                    "part": "turret",
+                                    "rotation_type": "y",
+                                    "axis": "y",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "turret_yaw2",
+                                    "part": "turret",
+                                    "rotation_type": "y",
+                                    "axis": "y",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "cannon_pitch",
+                                    "part": "turret",
+                                    "rotation_type": "x",
+                                    "axis": "x",
+                                    "invert": false
+                                },
+                                {
+                                    "bone": "tm20_rws_yaw",
+                                    "part": "commander_machine_gun",
+                                    "rotation_type": "y",
+                                    "axis": "y",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "tm20_rws_pitch",
+                                    "part": "commander_machine_gun",
+                                    "rotation_type": "x",
+                                    "axis": "x",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "tm20_aps_right_yaw",
+                                    "part": "aps_left",
+                                    "rotation_type": "y",
+                                    "axis": "y",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "tm20_aps_right_pitch",
+                                    "part": "aps_left",
+                                    "rotation_type": "x",
+                                    "axis": "x",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "tm20_aps_left_yaw",
+                                    "part": "aps_right",
+                                    "rotation_type": "y",
+                                    "axis": "y",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "tm20_aps_left_pitch",
+                                    "part": "aps_right",
+                                    "rotation_type": "x",
+                                    "axis": "x",
+                                    "invert": true
+                                }
+                            ]
+                        },
+                        {
+                            "type": "switchable_animation",
+                            "ref": "door_driver"
+                        },
+                        {
+                            "type": "switchable_animation",
+                            "ref": "door_gunner"
+                        },
+                        {
+                            "type": "switchable_animation",
+                            "ref": "door_commander"
+                        },
+                        {
+                            "type": "track_animation"
+                        }
+                    ]
+                },
+                "add": {
+                    "type": "event_animation"
+                }
+            }
+        ]
+    }
+}

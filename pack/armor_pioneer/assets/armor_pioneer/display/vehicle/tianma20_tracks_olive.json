@@ -1,0 +1,25 @@
+{
+    "type": "ywzj_vehicle:tracked_vehicle",
+    "model": "armor_pioneer:entity/tianma20",
+    "texture": "armor_pioneer:textures/entity/tianma20_tracks_olive.png",
+    "slot_texture": "armor_pioneer:textures/slot/tianma20.png",
+    "animations": "armor_pioneer:entity/tianma20.animation",
+    "animation_controller": "armor_pioneer:tianma20_controller",
+    "sounds": {
+        "engine_start": "ywzj_vehicle:ztz99a_engine_start",
+        "engine_idle": "ywzj_vehicle:ztz99a_engine_idle",
+        "engine_run": "ywzj_vehicle:ztz99a_engine_run",
+        "track_run": "ywzj_vehicle:track_run"
+    },
+    "description": "vehicle.tianma20.description",
+    "tab_index": 2105,
+    "track_config": {
+        "model": "armor_pioneer:effect/tianma20_track_link",
+        "texture": "armor_pioneer:textures/entity/tianma20_tracks_olive.png",
+        "module_length": 0.295399,
+        "left_track": "vt5_tread_l_move",
+        "right_track": "vt5_tread_r_move",
+        "track_width": 3.250503
+    },
+    "display_group": "armor_pioneer:entity/tianma20"
+}

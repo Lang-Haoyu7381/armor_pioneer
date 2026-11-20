@@ -1,0 +1,30 @@
+# ---- 构建产物 ----
+build/
+build1211/
+out/
+*.class
+
+# ---- 本地日志与编辑器备份 ----
+*.log
+*.bak
+*.bak.*
+*.before_*.bak
+~$*
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+
+# ---- 编辑器 / 系统 ----
+.idea/
+.vscode/
+.gradle/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- 二进制：只保留 releases/ 里的成品 ----
+*.jar
+!releases/*.jar
+*.zip
+!releases/*.zip

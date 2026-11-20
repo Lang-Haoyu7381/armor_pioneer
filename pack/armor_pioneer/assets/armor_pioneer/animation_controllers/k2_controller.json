@@ -1,0 +1,174 @@
+{
+    "name": "k2_controller",
+    "parameters": {},
+    "event_animations": {
+        "turret_fire": [
+            "barrel_shoot"
+        ],
+        "commander_machine_gun_fire": [
+            "machine_gun_shoot"
+        ]
+    },
+    "switchable_animations": {
+        "door_driver": {
+            "part_id": "door_driver",
+            "animation": "animation.k2.hulldoor.open"
+        },
+        "door_gunner": {
+            "part_id": "door_gunner",
+            "animation": "animation.k2.turretdoor.open2"
+        },
+        "door_commander": {
+            "part_id": "door_commander",
+            "animation": "animation.k2.turretdoor.open"
+        }
+    },
+    "graph": {
+        "type": "merge",
+        "inputs": [
+            {
+                "type": "additive",
+                "base": {
+                    "type": "merge",
+                    "inputs": [
+                        {
+                            "type": "bone_binding",
+                            "special_bindings": [
+                                {
+                                    "bones": [
+                                        "vt5_wheel7",
+                                        "vt5_wheel6",
+                                        "vt5_wheel5",
+                                        "vt5_wheel4",
+                                        "vt5_wheel3",
+                                        "vt5_wheel2"
+                                    ],
+                                    "source": "left_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.40625
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_wheel8"
+                                    ],
+                                    "source": "left_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.40625
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_wheel9"
+                                    ],
+                                    "source": "left_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.47625
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_wheel16",
+                                        "vt5_wheel15",
+                                        "vt5_wheel14",
+                                        "vt5_wheel13",
+                                        "vt5_wheel12",
+                                        "vt5_wheel11"
+                                    ],
+                                    "source": "right_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.40625
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_wheel17"
+                                    ],
+                                    "source": "right_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.40625
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_wheel18"
+                                    ],
+                                    "source": "right_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.47625
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_roller_L_1",
+                                        "vt5_roller_L_2",
+                                        "vt5_roller_L_3"
+                                    ],
+                                    "source": "left_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.184375
+                                },
+                                {
+                                    "bones": [
+                                        "vt5_roller_R_1",
+                                        "vt5_roller_R_2",
+                                        "vt5_roller_R_3"
+                                    ],
+                                    "source": "right_wheel_rotation",
+                                    "axis": "x",
+                                    "param": -0.184375
+                                }
+                            ],
+                            "part_bindings": [
+                                {
+                                    "bone": "turret_yaw",
+                                    "part": "turret",
+                                    "rotation_type": "y",
+                                    "axis": "y",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "turret_yaw2",
+                                    "part": "turret",
+                                    "rotation_type": "y",
+                                    "axis": "y",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "cannon_pitch",
+                                    "part": "turret",
+                                    "rotation_type": "x",
+                                    "axis": "x",
+                                    "invert": false
+                                },
+                                {
+                                    "bone": "k2_rws_yaw",
+                                    "part": "commander_machine_gun",
+                                    "rotation_type": "y",
+                                    "axis": "y",
+                                    "invert": true
+                                },
+                                {
+                                    "bone": "k2_rws_pitch",
+                                    "part": "commander_machine_gun",
+                                    "rotation_type": "x",
+                                    "axis": "x",
+                                    "invert": true
+                                }
+                            ]
+                        },
+                        {
+                            "type": "switchable_animation",
+                            "ref": "door_driver"
+                        },
+                        {
+                            "type": "switchable_animation",
+                            "ref": "door_gunner"
+                        },
+                        {
+                            "type": "switchable_animation",
+                            "ref": "door_commander"
+                        }
+                    ]
+                },
+                "add": {
+                    "type": "event_animation"
+                }
+            }
+        ]
+    }
+}

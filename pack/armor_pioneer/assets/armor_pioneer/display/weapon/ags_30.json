@@ -1,0 +1,8 @@
+{
+    "type": "ywzj_vehicle:weapon",
+    "sounds": {
+        "fire": "ywzj_vehicle:auto_cannon_shot",
+        "reload": "ywzj_vehicle:auto_cannon_reload",
+        "shell": "ywzj_vehicle:cannon_shell_drop"
+    }
+}
